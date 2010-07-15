@@ -1,3 +1,5 @@
+require 'json'
+
 module Rack
   module SpeedTracer
 
@@ -7,7 +9,7 @@ module Rack
         @method = method
         @uri = uri
 
-        @start = Time.now.to_f
+        @start = Time.now
         @children = []
       end
 
@@ -15,28 +17,28 @@ module Rack
         file, line, method = caller.first.split(':')
         method = method.gsub(/^in|[^\w]+/, '') if method
 
-        start =  Time.now.to_f
+        start =  Time.now
         blk.call
-        finish = Time.now.to_f
+        finish = Time.now
 
         @children.push({
                          'range' =>  range(start, finish),
                          'id' =>  @children.size,
                          'operation' =>  {
                            'sourceCodeLocation' =>  {
-                             'fileName'    =>  file,
+                             'className'   =>  file,
                              'methodName'  =>  method,
                              'lineNumber'  =>  line
                            },
-                           # 'type' =>  'VIEW_RESOLVER',
+                           'type' =>  'METHOD',
                            'label' =>  name
                          },
                          'children' =>  []
         })
       end
 
-      def to_json
-        now = Time.now.to_f
+      def finish
+        now = Time.now
 
         {
           'trace' =>  {
@@ -45,11 +47,7 @@ module Rack
             'range' =>  range(@start, now),
             'id' =>  @id,
             'frameStack' =>  {
-              # 'range' =>  {
-              #   'duration' =>  2374,
-              #   'start' =>  1268967930664,
-              #   'end' =>  1268967933038
-              # },
+              'range' =>  range(@start, now),
               'id' =>  '0',
               'operation' =>  {
                 'type' =>  'HTTP',
@@ -58,21 +56,18 @@ module Rack
               'children' =>  @children
             }
           }
-        }
-
+        }.to_json
       end
 
       private
-
         def range(start, finish)
           {
-            'duration'  =>  ((finish - start) * 1000).to_i, # duration is reported in milliseconds
-            'start'     =>  start.to_i,                     # TODO: millisecond granularity?
-            'end'       =>  finish.to_i                     # TODO: millisecond granularity?
+            # all timestamps are in milliseconds
+            'duration'  =>  ((finish - start) * 1000).to_i,
+            'start'     =>  [start.to_i,  start.usec/1000].join(''),
+            'end'       =>  [finish.to_i, finish.usec/1000].join('')
           }
         end
-
     end
   end
-
 end

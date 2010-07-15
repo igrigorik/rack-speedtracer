@@ -44,7 +44,7 @@ module Rack
 
               qs = Rack::Utils.parse_query(env['QUERY_STRING'])
               if qs['id'] && @db[qs['id']]
-                resp.body = @db[qs['id']].to_json
+                resp.write @db[qs['id']]
               else
                 # Invalid request or missing request trace id
                 resp.status = 404
@@ -58,10 +58,10 @@ module Rack
         end
 
         env['st.id']   = @uuid.generate
-        env['st.tracer'] = Tracer.new(env['speedtracer.id'], env['REQUEST_METHOD'], env['REQUEST_URI'])
+        env['st.tracer'] = Tracer.new(env['st.id'], env['REQUEST_METHOD'], env['REQUEST_URI'])
 
         @status, @headers, @response = @app.call(env)
-        @db[env['st.id']] = env['st.tracer'].to_json
+        @db[env['st.id']] = env['st.tracer'].finish
 
         # set the TraceUrl header to notify SpeedTracer that
         # serverside meta-data is available for this request

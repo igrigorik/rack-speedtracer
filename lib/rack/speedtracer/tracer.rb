@@ -1,5 +1,3 @@
-require 'yajl'
-
 module Rack
   module SpeedTracer
 

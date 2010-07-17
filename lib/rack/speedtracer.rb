@@ -1,4 +1,6 @@
 require 'rack'
+require 'yajl'
+require 'uuid'
 
 require 'rack/speedtracer/context'
 require 'rack/speedtracer/tracer'

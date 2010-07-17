@@ -6,6 +6,10 @@ require 'lib/rack/speedtracer'
 class SomeApp
   def call(env)
     env['st.tracer'].run('computation: 5**100000') do
+      env['st.tracer'].run('computation 2: 5**10000') do
+        5**10000
+      end
+
       5**100000
     end
 

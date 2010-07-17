@@ -2,7 +2,7 @@ $LOAD_PATH.unshift File.dirname(File.dirname(__FILE__)) + '/lib'
 
 require 'rubygems'
 require 'rack/speedtracer'
-require 'json'
+require 'yajl'
 require 'spec'
 require 'pp'
 

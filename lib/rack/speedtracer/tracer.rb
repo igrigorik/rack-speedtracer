@@ -1,4 +1,4 @@
-require 'json'
+require 'yajl'
 
 module Rack
   module SpeedTracer
@@ -36,7 +36,7 @@ module Rack
       end
 
       def to_json
-        {
+        Yajl::Encoder.encode({
           'range' => range(@start, @finish),
           'id' =>  @id,
           'operation' =>  {
@@ -49,7 +49,7 @@ module Rack
             'label' =>  @name
           },
           'children' =>  @children
-        }.to_json
+        })
       end
     end
 
@@ -90,7 +90,7 @@ module Rack
         event.finish  # finalize current event timers
         @pstack.pop   # pop current event from parent stack
 
-        if parent = @pstack.pop
+        if parent = @pstack.last
           parent.children.push event
         else
           # no parent, means this is a child of root node
@@ -101,7 +101,7 @@ module Rack
       def finish
         super()
 
-        {
+        Yajl::Encoder.encode({
           'trace' =>  {
             'date' =>  @start.to_i,
             'application' => 'Rack SpeedTracer',
@@ -117,7 +117,7 @@ module Rack
               'children' =>  @children
             }
           }
-        }.to_json
+        })
       end
     end
   end

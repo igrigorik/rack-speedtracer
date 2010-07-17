@@ -1,7 +1,7 @@
 require 'rack'
 
-require 'lib/rack/speedtracer/context'
-require 'lib/rack/speedtracer/tracer'
+require 'rack/speedtracer/context'
+require 'rack/speedtracer/tracer'
 
 module Rack
   module SpeedTracer

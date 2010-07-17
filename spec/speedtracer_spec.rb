@@ -31,7 +31,7 @@ describe Rack::SpeedTracer do
     end
 
     it 'should return a stored trace in JSON format' do
-      sample_trace = {'trace' => {}}.to_json
+      sample_trace = Yajl::Encoder.encode({'trace' => {}})
 
       respond_with(200)
       response = get('/speedtracer?id=test') do |st|

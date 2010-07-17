@@ -1,7 +1,8 @@
 require 'rubygems'
 require 'rack'
 
-require 'lib/rack/speedtracer'
+$LOAD_PATH.unshift 'lib'
+require 'rack/speedtracer'
 
 class SomeApp
   def call(env)
@@ -9,6 +10,8 @@ class SomeApp
       env['st.tracer'].run('computation 2: 5**10000') do
         5**10000
       end
+
+      env['st.tracer'].run('sleep(0.01)') { sleep(0.01) }
 
       5**100000
     end

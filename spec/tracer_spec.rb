@@ -10,11 +10,11 @@ describe Rack::SpeedTracer::Tracer do
     let(:tracer) { Rack::SpeedTracer::Tracer.new(1, 'GET', '/test') }
 
     it 'should serialize to json on finish' do
-      lambda { JSON.parse(tracer.finish) }.should_not raise_error
+      lambda { Yajl::Parser.parse(tracer.finish) }.should_not raise_error
     end
 
     it 'should conform to base speedtracer JSON schema' do
-      trace = JSON.parse(tracer.finish)['trace']
+      trace = Yajl::Parser.parse(tracer.finish)['trace']
 
       # Example base trace:
       # {"date"=>1279403357,
@@ -64,14 +64,14 @@ describe Rack::SpeedTracer::Tracer do
 
     it 'should measure execution time in milliseconds' do
       tracer.run { sleep(0.01) }
-      trace = JSON.parse(tracer.finish)['trace']
+      trace = Yajl::Parser.parse(tracer.finish)['trace']
 
       trace['range']['duration'].to_i.should == 10
     end
 
     it 'should report traced codeblocks' do
       tracer.run { sleep(0.01) }
-      trace = JSON.parse(tracer.finish)['trace']
+      trace = Yajl::Parser.parse(tracer.finish)['trace']
 
       trace['frameStack']['children'].size.should == 1
 
@@ -84,7 +84,7 @@ describe Rack::SpeedTracer::Tracer do
 
     it 'should accept optional label for each trace' do
       tracer.run('label') { sleep(0.01) }
-      trace = JSON.parse(tracer.finish)['trace']
+      trace = Yajl::Parser.parse(tracer.finish)['trace']
 
       trace['frameStack']['children'].first['operation']['label'].should match('label')
     end
@@ -94,7 +94,7 @@ describe Rack::SpeedTracer::Tracer do
         tracer.run('child') { sleep(0.01) }
       end
 
-      trace = JSON.parse(tracer.finish)['trace']
+      trace = Yajl::Parser.parse(tracer.finish)['trace']
 
       parent = trace['frameStack']['children'].first
       parent['operation']['label'].should match('parent')

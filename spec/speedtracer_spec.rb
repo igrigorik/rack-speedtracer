@@ -31,14 +31,14 @@ describe Rack::SpeedTracer do
     end
 
     it 'should return a stored trace in JSON format' do
-      sample_trace = {'trace' => {}}
+      sample_trace = {'trace' => {}}.to_json
 
       respond_with(200)
       response = get('/speedtracer?id=test') do |st|
         st.db['test'] = sample_trace
       end
 
-      response.body.should == sample_trace.to_json
+      response.body.should == sample_trace
     end
 
     it 'should return 404 on missing trace' do

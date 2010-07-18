@@ -41,6 +41,9 @@ Check out a full sample rack app: examples/runner.rb
 ### Manually instrumenting Rails ###
 To produce a server-side trace equivalent to one in the screenshot above:
 
+    # in your Gemfile
+    gem 'rack-speedtracer', :require => 'rack/speedtracer'
+
     # in development.rb environment
     config.middleware.use Rack::SpeedTracer
 

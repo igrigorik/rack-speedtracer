@@ -1,6 +1,8 @@
 Rack::SpeedTracer
 =========
 
+Blog post: [Speed Tracer Server-side Tracing with Rack](http://www.igvita.com/2010/07/19/speed-tracer-server-side-tracing-with-rack/)
+
 Rack::SpeedTracer middleware provides server-side tracing capabilities to any Rack compatible app. Include the middleware, instrument your application, and then load it in your Google Chrome + SpeedTracer to view detailed breakdown of your JavaScript/CSS load times, GC cycles, as well as, server side performance data provided by this middleware - you can preview both server side and client side performance data all within the same view in SpeedTracer!
 
 Preview of a sample, server side Rails trace (see below for setup) in SpeedTracer:

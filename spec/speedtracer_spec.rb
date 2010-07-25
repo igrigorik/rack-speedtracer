@@ -9,7 +9,7 @@ describe Rack::SpeedTracer do
     end
 
     it 'take an options Hash' do
-      lambda { Rack::Cache.new(app, {}) }.should_not raise_error(ArgumentError)
+      lambda { Rack::SpeedTracer.new(app, {}) }.should_not raise_error(ArgumentError)
     end
   end
 

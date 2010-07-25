@@ -84,9 +84,9 @@ module Rack
         event = ServerEvent.new(@event_id, file, line, method, name)
         @pstack.push event
 
-        blk.call      # execute the provided code block
-        event.finish  # finalize current event timers
-        @pstack.pop   # pop current event from parent stack
+        result = blk.call # execute the provided code block
+        event.finish      # finalize current event timers
+        @pstack.pop       # pop current event from parent stack
 
         if parent = @pstack.last
           parent.children.push event
@@ -94,6 +94,7 @@ module Rack
           # no parent, means this is a child of root node
           @children.push event
         end
+        result
       end
 
       def finish

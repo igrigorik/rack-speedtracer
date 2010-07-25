@@ -69,6 +69,11 @@ describe Rack::SpeedTracer::Tracer do
       trace['range']['duration'].to_i.should == 10
     end
 
+    it 'should return the value of the block' do
+      value = Time.now
+      tracer.run { value }.should == value
+    end
+
     it 'should report traced codeblocks' do
       tracer.run { sleep(0.01) }
       trace = Yajl::Parser.parse(tracer.finish)['trace']

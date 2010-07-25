@@ -10,12 +10,12 @@ module Rack
       def initialize(app, options = {}, &blk)
         @app  = app
         @uuid = UUID.new
+        @db = {}
 
         # TODO: storage strategy...
         # initialize_options with options
-        # yield self if block_given?
 
-        @db = {}
+        yield self if block_given?
       end
 
       def call(env)

@@ -11,6 +11,14 @@ describe Rack::SpeedTracer do
     it 'take an options Hash' do
       lambda { Rack::SpeedTracer.new(app, {}) }.should_not raise_error(ArgumentError)
     end
+
+    it 'takes a block' do
+      db = {}
+      middleware = Rack::SpeedTracer.new(app) do |tracer|
+        tracer.db = db
+      end
+      middleware.db.should == db
+    end
   end
 
   describe 'response' do

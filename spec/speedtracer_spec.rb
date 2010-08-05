@@ -19,6 +19,15 @@ describe Rack::SpeedTracer do
       end
       middleware.db.should == db
     end
+
+    it "takes an optional storage class" do
+      class SomeStorageClass
+        def initialize(options)
+        end
+      end
+      middleware = Rack::SpeedTracer.new(app, :storage_class => SomeStorageClass)
+      middleware.db.class.should == SomeStorageClass
+    end
   end
 
   describe 'response' do

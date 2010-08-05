@@ -4,6 +4,7 @@ require 'uuid'
 
 require 'rack/speedtracer/context'
 require 'rack/speedtracer/tracer'
+require 'rack/speedtracer/memory_storage'
 
 module Rack
   module SpeedTracer

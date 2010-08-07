@@ -10,14 +10,14 @@ describe Rack::SpeedTracer::RedisStorage do
 
   it "fetches traces from Redis" do
     r = @storage_klass.new({})
-    @mock_redis.should_receive(:get).with("speedtracer_some_trace")
+    @mock_redis.should_receive(:get).with("speedtracer:some_trace")
     trace = r['some_trace']
   end
 
   it "saves traces in Redis with a default expiry time" do
     r = @storage_klass.new({})
-    @mock_redis.should_receive(:set).with("speedtracer_some_trace", "trace_contents")
-    @mock_redis.should_receive(:expire).with("speedtracer_some_trace", 600)
+    @mock_redis.should_receive(:set).with("speedtracer:some_trace", "trace_contents")
+    @mock_redis.should_receive(:expire).with("speedtracer:some_trace", 600)
     r['some_trace'] = "trace_contents"
   end
 end

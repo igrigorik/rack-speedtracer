@@ -22,7 +22,7 @@ module Rack
       private
 
       def namespace_key(key)
-        "speedtracer_#{key}"
+        "speedtracer:#{key}"
       end
     end
   end

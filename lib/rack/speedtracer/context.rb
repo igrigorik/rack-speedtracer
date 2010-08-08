@@ -10,11 +10,7 @@ module Rack
       def initialize(app, options = {}, &blk)
         @app  = app
         @uuid = UUID.new
-        storage_class = options.delete(:storage_class) || MemoryStorage
-        @db = storage_class.new(options)
-
-        # TODO: storage strategy...
-        # initialize_options with options
+        @db = options.delete(:storage_class).new(options)
 
         yield self if block_given?
       end

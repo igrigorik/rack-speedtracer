@@ -24,13 +24,16 @@ module Rack
     class ServerEvent < TraceRecord
       attr_accessor :children
 
-      def initialize(id, file, line, method, name)
+      def initialize(id, file, line, method, name, start = nil, finish = nil)
         super(id)
 
         @file = file
         @line = line
         @method = method
         @name = name
+
+        @start = start
+        @finish = finish
       end
 
       def to_json
@@ -59,6 +62,15 @@ module Rack
         @uri = uri
         @event_id = 0
         @pstack = []
+      end
+
+      def record(name, start, finish)
+        @event_id += 1
+        event = ServerEvent.new(@event_id, 'uknown_file', 0, 'uknown_method', name, start, finish)
+
+        # TODO: not sure how to setup the hierarchy with Rails
+        # for now, just push everythign as a root child
+        @children.push event
       end
 
       def run(name = '', &blk)

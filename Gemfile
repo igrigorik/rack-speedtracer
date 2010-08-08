@@ -3,7 +3,7 @@ source "http://rubygems.org"
 gem "uuid"
 gem "yajl-ruby"
 gem "redis"
-gem "SystemTimer"
+# gem "SystemTimer" # breaks on 1.9.2?
 
 group :test do
   gem "rack"

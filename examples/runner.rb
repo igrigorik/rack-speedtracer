@@ -26,7 +26,7 @@ end
 
 builder = Rack::Builder.new do
   use Rack::CommonLogger
-  use Rack::SpeedTracer
+  use Rack::SpeedTracer, :storage => :redis
 
   run SomeApp.new
 end

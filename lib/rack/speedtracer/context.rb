@@ -3,6 +3,7 @@ module Rack
 
     class Context
       TRACER_PATH  = /^\/speedtracer/.freeze
+      SYMBOL_PATH  = /^\/symbolmanifest.json/.freeze
       CONTENT_TYPE = 'application/json;charset=UTF-8'.freeze
 
       attr_accessor :db
@@ -20,8 +21,11 @@ module Rack
       end
 
       def call(env)
-        if env['PATH_INFO'].match(TRACER_PATH)
+        case env['PATH_INFO']
+        when SYMBOL_PATH
+          return Rack::Response.new('', 404).finish
 
+        when TRACER_PATH
           resp = Rack::Response.new('', 200)
           resp['Content-Type'] = CONTENT_TYPE
 

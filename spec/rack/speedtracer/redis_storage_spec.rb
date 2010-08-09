@@ -20,4 +20,10 @@ describe Rack::SpeedTracer::RedisStorage do
     @mock_redis.should_receive(:expire).with("speedtracer:some_trace", 600)
     r['some_trace'] = "trace_contents"
   end
+
+  it "allows the key namespace to be changed" do
+    r = @storage_klass.new(:namespace => "my_namespace")
+    @mock_redis.should_receive(:get).with("my_namespace:my_trace")
+    trace = r['my_trace']
+  end
 end

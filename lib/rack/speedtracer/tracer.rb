@@ -24,7 +24,7 @@ module Rack
     class ServerEvent < TraceRecord
       attr_accessor :children
 
-      def initialize(id, file, line, method, name, start = nil, finish = nil)
+      def initialize(id, file, line, method, name, start = Time.now, finish = nil)
         super(id)
 
         @file = file

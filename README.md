@@ -26,7 +26,7 @@ How it works
 
 Rack::SpeedTracer provides a Tracer class which you can use to instrument your code. From there, the trace details are stored as a JSON blob, and a special X-TraceUrl header is sent back to the client. If the user clicks on the network resource that corresponds to a request which returned a X-TraceUrl header, then SpeedTracer will make a request to our app to load the server side trace. Rack::SpeedTracer responds to this request and returns the full trace - aka, the data is provided on demand.
 
-### Quickstart Guide ###
+### Quickstart Guide with Rack ###
 
     gem install rack-speedtracer
 
@@ -39,6 +39,15 @@ Rack::SpeedTracer provides a Tracer class which you can use to instrument your c
     end
 
 Check out a full sample rack app: examples/runner.rb
+
+### Instrumenting Rails 3 application ###
+Rails 3 provides new [Notifications API](http://edgeapi.rubyonrails.org/classes/ActiveSupport/Notifications.html), which we can use to automatically instrument your Rails applications! It's as easy as:
+
+    # in your Gemfile
+    gem 'rack-speedtracer', :require => 'rack/speedtracer'
+
+    # in development.rb environment
+    config.middleware.use Rack::SpeedTracer
 
 ### Manually instrumenting Rails ###
 To produce a server-side trace equivalent to one in the screenshot above:

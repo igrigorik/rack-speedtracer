@@ -8,7 +8,9 @@ module ActionController
         :formats    => request.formats.map(&:to_sym),
         :method     => request.method,
         :path       => (request.fullpath rescue "unknown"),
-        :request    => request # Need access to request context
+
+        # need to pass in the tracer object to auto-instrument Rails
+        :tracer     => request.env['st.tracer']
       }
 
       ActiveSupport::Notifications.instrument("start_processing.action_controller", raw_payload.dup)
@@ -37,11 +39,11 @@ module Rack
 
           case event.name
             when 'start_processing.action_controller' then
-              @tracer = event.payload[:request].env['st.tracer']
+              @tracer = event.payload[:tracer]
+
             when 'process_action.action_controller' then
               # in theory, can report controller execution time by
-              # db_runtime - view_runtime.. skipping for now
-              # p event
+              # db_runtime - view_runtime.. skipping for now.
 
             when 'sql.active_record' then
               name = [event.payload[:name], event.payload[:sql]].join(": ")

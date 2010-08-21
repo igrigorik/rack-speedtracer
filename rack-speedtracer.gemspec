@@ -9,21 +9,25 @@ Gem::Specification.new do |s|
 
   s.required_rubygems_version = Gem::Requirement.new(">= 0") if s.respond_to? :required_rubygems_version=
   s.authors = ["Ilya Grigorik"]
-  s.date = %q{2010-07-18}
+  s.date = %q{2010-08-21}
   s.description = %q{SpeedTracer middleware for server side debugging}
   s.email = %q{ilya@igvita.com}
   s.extra_rdoc_files = [
     "README.md"
   ]
   s.files = [
-    "README.md",
+    ".gitignore",
+     "Gemfile",
+     "README.md",
      "Rakefile",
      "VERSION",
      "examples/runner.png",
      "examples/runner.rb",
      "lib/rack/speedtracer.rb",
      "lib/rack/speedtracer/context.rb",
+     "lib/rack/speedtracer/rails.rb",
      "lib/rack/speedtracer/tracer.rb",
+     "rack-speedtracer.gemspec",
      "spec/spec_helper.rb",
      "spec/speedtracer_spec.rb",
      "spec/tracer_spec.rb"
@@ -32,7 +36,7 @@ Gem::Specification.new do |s|
   s.rdoc_options = ["--charset=UTF-8"]
   s.require_paths = ["lib"]
   s.rubyforge_project = %q{rack-speedtracer}
-  s.rubygems_version = %q{1.3.6}
+  s.rubygems_version = %q{1.3.7}
   s.summary = %q{SpeedTracer middleware for server side debugging}
   s.test_files = [
     "spec/spec_helper.rb",
@@ -45,7 +49,7 @@ Gem::Specification.new do |s|
     current_version = Gem::Specification::CURRENT_SPECIFICATION_VERSION
     s.specification_version = 3
 
-    if Gem::Version.new(Gem::RubyGemsVersion) >= Gem::Version.new('1.2.0') then
+    if Gem::Version.new(Gem::VERSION) >= Gem::Version.new('1.2.0') then
       s.add_runtime_dependency(%q<rack>, [">= 0"])
       s.add_runtime_dependency(%q<uuid>, [">= 0"])
       s.add_runtime_dependency(%q<yajl-ruby>, [">= 0"])

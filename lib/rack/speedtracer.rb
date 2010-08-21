@@ -6,8 +6,10 @@ require 'rack/speedtracer/context'
 require 'rack/speedtracer/tracer'
 
 # auto-instrument Rails 3 applications
-if defined? Rails && Rails::Version::Major >= 3
-  # require 'rack/speedtracer/rails'
+if defined? Rails
+  if Rails::Version::Major >= 3
+    require 'rack/speedtracer/rails'
+  end
 end
 
 module Rack

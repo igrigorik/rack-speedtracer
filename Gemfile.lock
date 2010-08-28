@@ -1,6 +1,7 @@
 GEM
   remote: http://rubygems.org/
   specs:
+    SystemTimer (1.2)
     macaddr (1.0.0)
     rack (1.2.1)
     rake (0.8.7)
@@ -14,6 +15,7 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  SystemTimer
   rack
   rake
   redis

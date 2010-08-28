@@ -7,6 +7,7 @@ module Rack
       def initialize(options)
         @redis = Redis.new(options[:redis_options] || {})
         @ttl = options[:trace_ttl] || 600
+        @namespace = options[:namespace] || "speedtracer"
       end
 
       def [](trace_id)
@@ -22,7 +23,7 @@ module Rack
       private
 
       def namespace_key(key)
-        "speedtracer_#{key}"
+        "#{@namespace}:#{key}"
       end
     end
   end

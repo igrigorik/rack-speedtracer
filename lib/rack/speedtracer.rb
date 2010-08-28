@@ -4,6 +4,8 @@ require 'uuid'
 
 require 'rack/speedtracer/context'
 require 'rack/speedtracer/tracer'
+require 'rack/speedtracer/memory_storage'
+require 'rack/speedtracer/redis_storage'
 
 # auto-instrument Rails 3 applications
 if defined? Rails

@@ -1,9 +1,3 @@
-require 'rubygems'
-require 'rack'
-
-$LOAD_PATH.unshift 'lib'
-require 'rack/speedtracer'
-
 class SomeApp
   def call(env)
     env['st.tracer'].run('computation: 5**100000') do
@@ -23,12 +17,3 @@ class SomeApp
     [200, {"Content-Type" => "text/plain"}, "Hello World"]
   end
 end
-
-builder = Rack::Builder.new do
-  use Rack::CommonLogger
-  use Rack::SpeedTracer
-
-  run SomeApp.new
-end
-
-Rack::Handler::Thin.run builder.to_app, :Port => 4567

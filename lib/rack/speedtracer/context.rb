@@ -9,12 +9,13 @@ module Rack
       attr_accessor :db
 
       def initialize(app, options = {}, &blk)
+        options = {
+          :storage => Storage::Memory
+        }.merge(options)
+
         @app  = app
         @uuid = UUID.new
-        @db = {}
-
-        # TODO: storage strategy...
-        # initialize_options with options
+        @db = options.delete(:storage).new(options)
 
         yield self if block_given?
       end

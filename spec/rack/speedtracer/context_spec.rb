@@ -19,6 +19,26 @@ describe Rack::SpeedTracer do
       end
       middleware.db.should == db
     end
+
+    context 'storage engine' do
+      it 'takes an optional storage class' do
+        class SomeStorageClass
+          def initialize(options);end
+        end
+        st = Rack::SpeedTracer.new(app, :storage => SomeStorageClass)
+        st.db.class.should == SomeStorageClass
+      end
+
+      it 'should default to memory storage' do
+        st = Rack::SpeedTracer.new(app)
+        st.db.class.should == Rack::SpeedTracer::Storage::Memory
+      end
+
+      it 'should accept redis storage' do
+        st = Rack::SpeedTracer.new(app, :storage => Rack::SpeedTracer::Storage::Redis)
+        st.db.class.should == Rack::SpeedTracer::Storage::Redis
+      end
+    end
   end
 
   describe 'response' do

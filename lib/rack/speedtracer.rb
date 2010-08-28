@@ -10,14 +10,7 @@ require 'rack/speedtracer/redis_storage'
 module Rack
   module SpeedTracer
     def self.new(app, options = {}, &blk)
-      storage = case options.delete(:storage)
-      when :redis then
-        RedisStorage
-      else
-        MemoryStorage
-      end
-
-      Context.new(app, {:storage_class => storage}.merge(options), &blk)
+      Context.new(app, options, &blk)
     end
   end
 end

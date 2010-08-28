@@ -1,11 +1,11 @@
 require 'spec_helper'
 require 'rack/speedtracer/redis_storage'
 
-describe Rack::SpeedTracer::RedisStorage do
+describe Rack::SpeedTracer::Storage::Redis do
   before(:each) do
     @mock_redis = mock('redis')
     Redis.stub(:new).and_return(@mock_redis)
-    @storage_klass = Rack::SpeedTracer::RedisStorage
+    @storage_klass = Rack::SpeedTracer::Storage::Redis
   end
 
   it "fetches traces from Redis" do

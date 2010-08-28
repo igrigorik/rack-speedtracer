@@ -13,12 +13,19 @@ module Rack
 
         def [](trace_id)
           @redis.get(namespace_key(trace_id))
+
+        rescue Exception => e
+          puts "#{self.class} : #{e}"
         end
 
         def []=(trace_id, trace)
+
           key = namespace_key(trace_id)
           @redis.set(key, trace)
           @redis.expire(key, @ttl)
+
+        rescue Exception => e
+          puts "#{self.class} : #{e}"
         end
 
         private

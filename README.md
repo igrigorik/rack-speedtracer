@@ -8,18 +8,21 @@ Rack::SpeedTracer middleware provides server-side tracing capabilities to any Ra
 Preview of a sample, server side Rails trace (see below for setup) in SpeedTracer:
 ![rails trace](http://img.skitch.com/20100717-cd31bhd5dh13sge7c2q1hefh4p.png)
 
+Features
+---------
+
+* Auto Rails 3 instrumentation (see example below)
+* Memory, or Redis storage backend
+  * Redis backend allows trace expiration (via :trace_ttl), and custom namespaces (via :namespace)
+
 Todo / Wishlist
 ---------------
 
-* Pluggable storage, ala rack-cache: capped mongo collection, or capped redis list would be ideal
-  * At the moment all of the data is stored directly in memory (unbounded)
-  * It would be great to have a mechanism to either (a) limit number of store traces or (b) expire them
 * Authentication / optional enable, ala rack-bug: IP-based, password based
   * At the moment, every request will record & store a trace
   * Could also do conditional tracing based on a request header: 'X-SpeedTracer: true'
-* Automagic Rails instrumentation for AR, layout, etc, ala rack-bug
 
-Because the middleware has no authentication, or does not yet provide a capped memory footprint, it is not ready to be run in production - use it in development mode until these mechanisms are in place. Patches are welcome, of course!
+Without authentication, I wouldn't recommend running this middleware in production, unless you add some extra logic. For a capped memory footprint, use Redis backend with a TTL to expire your traces after some reasonable amount of time.
 
 How it works
 ------------

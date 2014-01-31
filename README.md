@@ -31,48 +31,54 @@ Rack::SpeedTracer provides a Tracer class which you can use to instrument your c
 
 ### Quickstart Guide with Rack ###
 
-    gem install rack-speedtracer
+```ruby
+gem install rack-speedtracer
 
-    # in your rack app / rackup file
-    use Rack::SpeedTracer
+# in your rack app / rackup file
+use Rack::SpeedTracer
 
-    # in your app
-    env['st.tracer'].run('name of operation') do
-      ... your code ...
-    end
+# in your app
+env['st.tracer'].run('name of operation') do
+  ... your code ...
+end
+```
 
 Check out a full sample rack app: examples/runner.rb
 
 ### Instrumenting Rails 3 application ###
 Rails 3 provides new [Notifications API](http://edgeapi.rubyonrails.org/classes/ActiveSupport/Notifications.html), which we can use to automatically instrument your Rails applications! It's as easy as:
 
-    # in your Gemfile
-    gem 'rack-speedtracer', :require => 'rack/speedtracer'
+```ruby
+# in your Gemfile
+gem 'rack-speedtracer', :require => 'rack/speedtracer'
 
-    # in development.rb environment
-    config.middleware.use Rack::SpeedTracer
+# in development.rb environment
+config.middleware.use Rack::SpeedTracer
+```
 
 ### Manually instrumenting Rails ###
 To produce a server-side trace equivalent to one in the screenshot above:
 
-    # in your Gemfile
-    gem 'rack-speedtracer', :require => 'rack/speedtracer'
+```ruby
+# in your Gemfile
+gem 'rack-speedtracer', :require => 'rack/speedtracer'
 
-    # in development.rb environment
-    config.middleware.use Rack::SpeedTracer
+# in development.rb environment
+config.middleware.use Rack::SpeedTracer
 
-    # define a widgets controller
-    class WidgetsController < ApplicationController
-      def index
-        env['st.tracer'].run('Widgets#index') do
-          env['st.tracer'].run("ActiveRecord: Widgets.all") do
-            Widget.all
-          end
-
-          env['st.tracer'].run('Render') { render :text => 'oh hai' }
-        end
+# define a widgets controller
+class WidgetsController < ApplicationController
+  def index
+    env['st.tracer'].run('Widgets#index') do
+      env['st.tracer'].run("ActiveRecord: Widgets.all") do
+        Widget.all
       end
+
+      env['st.tracer'].run('Render') { render :text => 'oh hai' }
     end
+  end
+end
+```
 
 Speed Tracer
 ------------
